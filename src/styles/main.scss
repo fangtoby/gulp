@@ -1,0 +1,32 @@
+$color-0: #000;
+$color-c: #ccc;
+$color-e: #eee;
+$color-f: #fff;
+$color-8: #888;
+$color-f1: #f1f1f1;
+$color-fc: #fcfcfc;
+$color-dc: #dcdcdc;
+$color-f8: #f8f8f8;
+
+.main{
+	color: $color-0;
+	background-color: $color-f8;
+	padding: 0;
+	margin: 0;
+}
+.contaiter{
+	clear: both;
+	max-width: 300px;
+	margin: 0;
+	padding: 0;
+}
+.fl{
+	float: left;
+}
+.fr{
+	float: right;
+}
+.clearfix{
+	_zoom:1;
+	clear: both;
+}
