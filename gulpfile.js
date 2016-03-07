@@ -17,7 +17,10 @@ var gulp = require('gulp'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
     cache = require('gulp-cache'),
+	through2 = require('through2'),
     livereload = require('gulp-livereload');
+
+var conf = require('./conf.json');
 
 gulp.task('styles', function() {  
   return sass('src/styles/**/*.scss')
@@ -50,6 +53,35 @@ gulp.task('clean', function() {
   return gulp.src(['dist/styles', 'dist/scirpt', 'dist/images'], {read: false})
     .pipe(clean());
 });
+
+gulp.task('version',function(){
+  return gulp.src( conf.path.version )
+  .pipe(modify(version))
+  .pipe(gulp.dest('./conf'))
+  .pipe(notify({ message: 'Version update task complete' }));
+});
+
+//字符串的转换
+function modify(modifier) {  
+  return through2.obj(function(file, encoding, done) {
+    var content = modifier(String(file.contents));
+    file.contents = new Buffer(content);
+    this.push(file);
+    done();
+  });
+}
+//字符替换
+function version(data){
+	var date = new Date();
+    var str = '' + date.getFullYear() + getTwo(date.getMonth() + 1) + getTwo(date.getDate()) + getTwo(date.getHours()) + getTwo(date.getMinutes());
+	return data.replace(eval('/.css=\\d{10,20}/g'), '.css=' + str)
+	.replace(eval('/.js=\\d{10,20}/g'), '.js=' + str);	
+}
+//一位数变两位数
+var getTwo = function (str) {
+    str = str.toString();
+    return str.length == 1 ? "0" + str : str;
+};
 
 gulp.task('default', ['clean'], function() {  
     gulp.start('styles', 'script', 'images');
