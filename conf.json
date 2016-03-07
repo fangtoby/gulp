@@ -1,6 +1,21 @@
 {
 	"version":"1.0.0",
     "path": {
-        "version": "./conf/version.ini"
+        "version":{
+			"src":"./conf/version.ini",
+			"dest":"./conf"	
+		},
+		"scss":{
+			"src":"./src/styles/**/*.scss",
+			"dest":"./dist/styles"	
+		},
+		"js":{
+			"src":"./src/script/**/*.js",
+			"dest":"./dist/script"	
+		},
+		"images":{
+			"src":"./src/images/**/*",
+			"dest":"./dist/images"	
+		}
     }
 }

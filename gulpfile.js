@@ -21,43 +21,44 @@ var gulp = require('gulp'),
     livereload = require('gulp-livereload');
 
 var conf = require('./conf.json');
+var path = conf.path;
 
 gulp.task('styles', function() {  
-  return sass('src/styles/**/*.scss')
+  return sass( path.scss.src )
     .on('error', sass.logError)
     .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-    .pipe(gulp.dest('dist/styles'))
+    .pipe(gulp.dest( path.scss.dest))
     .pipe(rename({ suffix: '.min' }))
     .pipe(minifycss())
-    .pipe(gulp.dest('dist/styles'))
+    .pipe(gulp.dest( path.scss.dest))
     .pipe(notify({ message: 'Styles task complete' }));
 });
 
 gulp.task('script',function(){
-  return gulp.src('src/script/**/*.js')
+  return gulp.src(  path.js.src )
 	.pipe(jshint())
     .pipe(rename({ suffix: '.min' }))
   	.pipe(uglify())
-	.pipe(gulp.dest('dist/scirpt'))
+	.pipe(gulp.dest( path.js.dest ))
 	.pipe(notify({ message: 'Script task complete'}));
 });
 
 gulp.task('images', function() {  
-  return gulp.src('src/images/**/*')
+  return gulp.src( path.images.src )
     .pipe(imagemin({ optimizationLevel: 3, progressive: true, interlaced: true }))
-    .pipe(gulp.dest('dist/images'))
+    .pipe(gulp.dest( path.images.dest ))
     .pipe(notify({ message: 'Images task complete' }));
 });
 
 gulp.task('clean', function() {  
-  return gulp.src(['dist/styles', 'dist/scirpt', 'dist/images'], {read: false})
+  return gulp.src([ path.scss.dest , path.js.dest , path.images.dest ], {read: false})
     .pipe(clean());
 });
 
 gulp.task('version',function(){
-  return gulp.src( conf.path.version )
+  return gulp.src( path.version.src )
   .pipe(modify(version))
-  .pipe(gulp.dest('./conf'))
+  .pipe(gulp.dest( path.version.dest ))
   .pipe(notify({ message: 'Version update task complete' }));
 });
 
@@ -90,19 +91,19 @@ gulp.task('default', ['clean'], function() {
 
 gulp.task('watch', function() {
 
-  var styles = gulp.watch('src/styles/**/*.scss', ['styles']);
+  var styles = gulp.watch( path.scss.dest, ['styles']);
 
   styles.on('change', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
   });
   
-  var script = gulp.watch('src/script/**/*.js', ['script']);
+  var script = gulp.watch( path.js.dest, ['script']);
 
   script.on('change', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
   });
   
-  var images = gulp.watch('src/images/**/*', ['images']);
+  var images = gulp.watch( path.images.dest, ['images']);
 
   images.on('change', function(event) {
     console.log('File ' + event.path + ' was ' + event.type + ', running tasks...');
