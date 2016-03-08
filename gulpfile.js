@@ -74,7 +74,11 @@ function modify(modifier) {
 //字符替换
 function version(data){
 	var date = new Date();
-    var str = '' + date.getFullYear() + getTwo(date.getMonth() + 1) + getTwo(date.getDate()) + getTwo(date.getHours()) + getTwo(date.getMinutes());
+    var str = '' + date.getFullYear() 
+	+ getTwo(date.getMonth() + 1) 
+	+ getTwo(date.getDate()) 
+	+ getTwo(date.getHours()) 
+	+ getTwo(date.getMinutes());
 	return data.replace(eval('/.css=\\d{10,20}/g'), '.css=' + str)
 	.replace(eval('/.js=\\d{10,20}/g'), '.js=' + str);	
 }
