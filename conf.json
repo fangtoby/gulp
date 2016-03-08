@@ -1,6 +1,7 @@
 {
 	"version":"1.0.0",
     "path": {
+		"config":"./conf.json",
         "version":{
 			"src":"./conf/version.ini",
 			"dest":"./conf"	
